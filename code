@@ -1,1 +1,11 @@
+#include<stdio.h>
+void user(int user_inp);//it will take an integer as input and give user a set of options to choose from it also calls most of the functions
+void Records(int spe);//it takes a special integer as input and creates and loads the records according to it. Add records can be called from here
+void Add_records();//takes a file pointer and adds records to it at end of the line
+void delete_records();//to delete records
+void New_patient();//this one is sperate since it can be acessed through multiple 
+int main() {
 
+
+
+}
