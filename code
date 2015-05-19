@@ -29,16 +29,39 @@ void patient()
 		printf("\t1.New Patient\t\t\t2.Doctors Availability\n\t3.Patient Records\t\t4.\n");
 		line(63);
 
-		for(i=0;i<1;i++)
+	for(i=0;i<1;i++)
 		{
-			printf("Choose your Option:-");
-			scanf("%d",&patient_option);
+		printf("Choose your Option:-");
+		scanf("%d",&patient_option);
 
-			if(patient_option == 1)
-			{
-				printf("\t\twill be Updated soon\n");
+	if(patient_option == 1)
+		{
+		char a,b,c;
+        	printf("Enter the name of new patient\n");
+	 	scanf("%s",&a);
+        	printf("Enter the Age of the patient\n");
+        	scanf("%s",&b);
+        	printf("Enter the Problem/symptoms of Patient\n");
+        	scanf("%s",&c);
+
+        	if (con == NULL)
+			  {
+			      fprintf(stderr, "mysql_init() failed\n");
+			      exit(1);
+			  }
+
+			if (mysql_real_connect(con, "localhost", "root", "srivasthava", "summerproject", 0, NULL, 0) == NULL)
+			  {
+			      finish_with_error(con);
+			  }
+            	if (mysql_query(con, "INSERT INTO patients VALUES(a,b,c)"))
+			  {
+			      finish_with_error(con);
+			  }
+
+		
 			}
-			else if(patient_option == 2)
+	else if(patient_option == 2)
 			{
 				 if (con == NULL)
 				  {
@@ -84,7 +107,7 @@ void patient()
 				  mysql_free_result(result);
 				  mysql_close(con);
 			}
-			else if(patient_option == 3)
+	else if(patient_option == 3)
 			{
 				printf("\t\tDatabase not Available\n");
 			}
