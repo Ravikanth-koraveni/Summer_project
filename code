@@ -1,1 +1,276 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <my_global.h>
+#include <mysql.h>
+
+void finish_with_error(MYSQL *con)
+{
+  fprintf(stderr, "%s\n", mysql_error(con));
+  mysql_close(con);
+  exit(1);        
+}
+void line(j)
+{
+	int i;
+	printf("\t");
+	for(i=0;i<j;i++)	
+		printf("_");
+	printf("\n \n");
+}
+void patient()
+{
+	MYSQL *con = mysql_init(NULL);
+	int patient_option,i,k,j;
+	for (k=0;k<1;k++)	
+	{
+		printf("\n\n\t     Welcome to Patient Management System || ABCD Hospital \n");
+		line(63);
+		printf("\t1.New Patient\t\t\t2.Doctors Availability\n\t3.Patient Records\t\t4.\n");
+		line(63);
+
+		for(i=0;i<1;i++)
+		{
+			printf("Choose your Option:-");
+			scanf("%d",&patient_option);
+
+			if(patient_option == 1)
+			{
+				printf("\t\twill be Updated soon\n");
+			}
+			else if(patient_option == 2)
+			{
+				 if (con == NULL)
+				  {
+				      fprintf(stderr, "mysql_init() failed\n");
+				      exit(1);
+				  } 
+
+				if (mysql_real_connect(con, "localhost", "root", "srivasthava", "summerproject", 0, NULL, 0) == NULL) 
+				  {
+				      finish_with_error(con);
+				  }    
+				  
+				  if (mysql_query(con, "SELECT * FROM doctors WHERE available ='YES' ")) 
+				  {
+				      finish_with_error(con);
+				  }
+				 MYSQL_RES *result = mysql_store_result(con);
+	  
+				  if (result == NULL) 
+				  {
+				      finish_with_error(con);
+				  }
+
+				  int num_fields = mysql_num_fields(result) -1;
+
+				  MYSQL_ROW row;
+				  printf("\t\t\t\tDoctors Availability || ABCD Hospital\n");
+				  printf("\t");
+				  line(75);
+				  printf("\t\tSerial Number \t\t Name \t\t\t    Specilisation \t\n\t");
+				  line(75);
+				  while ((row = mysql_fetch_row(result))) 
+				  { 
+				      for(i = 0; i < num_fields; i++) 
+				      { 
+				    	
+					  	printf("%*s ",25,row[i] ? row[i] : "NULL"); 
+				      } 
+					  printf("\n");
+				  }
+				  printf("\t");
+				  line(75);
+				  mysql_free_result(result);
+				  mysql_close(con);
+			}
+			else if(patient_option == 3)
+			{
+				printf("\t\tDatabase not Available\n");
+			}
+			else 
+			{
+				printf("Please choose the appropriate Number\n\n");
+				i--;
+			}
+		}
+		printf("If u want to go back enter 1, \nif u want to go to the main menu then enter 2 \nexit 0\nChoose your option:-");
+		scanf("%d",&j);
+		
+		if(j == 1)
+		{
+			patient();
+		}
+		else if(j == 2)
+		{
+			main();
+		}
+		else
+		{
+			exit(0);
+		}
+	}
+}
+
+void Maintainance()
+{
+	MYSQL *con = mysql_init(NULL);
+	int patient_option,i;
+	printf("\n\n\t     Welcome to Maintenance Management|| ABCD Hospital \n");
+	printf("\t________________________________________________________________\n \n");
+	printf("\t1.Alloted Floor\t\t\t2.Workers Available\n\n\n");
+
+	for(i=0;i<1;i++)
+	{
+		printf("Choose your Option:-");
+		scanf("%d",&patient_option);
+
+		if(patient_option == 1)
+		{ char q;
+            printf("Enter the name of Employee you want to know the details of \n ");
+            scanf("%s",&q);
+
+
+			 if (con == NULL)
+			  {
+			      fprintf(stderr, "mysql_init() failed\n");
+			      exit(1);
+			  }
+
+			if (mysql_real_connect(con, "localhost", "root", "srivasthava", "summerproject", 0, NULL, 0) == NULL)
+			  {
+			      finish_with_error(con);
+			  }
+
+			  if (mysql_query(con, "SELECT * FROM workers WHERE name = 'q' "))
+			  {
+			      finish_with_error(con);
+			  }
+			 MYSQL_RES *result = mysql_store_result(con);
+
+			  if (result == NULL)
+			  {
+			      finish_with_error(con);
+			  }
+
+			  int num_fields = mysql_num_fields(result);
+
+			  MYSQL_ROW row;
+
+			  while ((row = mysql_fetch_row(result)))
+			  {
+			      for(i = 0; i < num_fields; i++)
+			      {
+				  printf("%s ", row[i] ? row[i] : "NULL");
+			      }
+				  printf("\n");
+			  }
+
+			  mysql_free_result(result);
+			  mysql_close(con);
+		}
+		}
+		else if(patient_option == 2)
+		{
+			 if (con == NULL)
+			  {
+			      fprintf(stderr, "mysql_init() failed\n");
+			      exit(1);
+			  }
+
+			if (mysql_real_connect(con, "localhost", "root", "srivasthava", "summerproject", 0, NULL, 0) == NULL)
+			  {
+			      finish_with_error(con);
+			  }
+
+			  if (mysql_query(con, "SELECT * FROM workers WHERE available ='YES' "))
+			  {
+			      finish_with_error(con);
+			  }
+			 MYSQL_RES *result = mysql_store_result(con);
+
+			  if (result == NULL)
+			  {
+			      finish_with_error(con);
+			  }
+
+			  int num_fields = mysql_num_fields(result);
+
+			  MYSQL_ROW row;
+
+			  while ((row = mysql_fetch_row(result)))
+			  {
+			      for(i = 0; i < num_fields; i++)
+			      {
+				  printf("%s ", row[i] ? row[i] : "NULL");
+			      }
+				  printf("\n");
+			  }
+
+			  mysql_free_result(result);
+			  mysql_close(con);
+		}
+		else
+		{
+			printf("Please choose the appropriate Number\n\n");
+			i--;
+		}
+	}
+}
+
+int main()
+{
+	int option,i;
+	printf("\n\n\t\t    Welcome to ABCD Hospital \n");
+	printf("\t_____________________________________________________\n \n");
+    printf("\t1.Patients\t\t\t 2.Doctors\n\t3.Manager\t\t\t 4.Nurses\n\t5.Miantaince Staff\t\t 6.Inportant Numbers\n");
+	printf("\t_____________________________________________________\n \n");
+	//printf("MySQL client version: %s\n", mysql_get_client_info());
+
+	for(i=0;i<1;i++)
+	{
+		printf("Choose your Category:-");
+		scanf("%d",&option);
+
+		if(option ==1 )
+		{
+			//patient();
+		}
+		else if(option ==2 )
+		{
+			printf("hello Doctor");
+		}
+		else if(option ==3 )
+		{
+			printf("hello Manger");
+		}
+		else if(option ==4 )
+		{
+			printf("hello Nurses");
+		}
+		else if(option ==5 )
+		{
+			printf("hello Maintenance Staff\n");
+			Maintenance();
+
+		}
+		else if(option ==6 )
+		{ int d;
+		    printf("Choose one of the following\n1.Hospital Contacts\t\t\t2.Emergency Contacts\n");
+		    scanf("%d",&d);
+		    if(d==1){
+                printf("Division\tPhone.No\nSecurity centre\t234132\nNurses Bay\t534333\nMaintenance\t452242\nManager\t542342");
+		    }
+		    else if(d==2){
+			printf("Emergency\tPhone No.\nFire\t\t110\nPolice\t\t100");
+			}
+		}
+		else
+		{
+			printf("Please choose the appropriate Number\n\n");
+			i--;
+		}
+	}
+	return 0;
+}
 
